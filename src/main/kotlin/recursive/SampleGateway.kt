@@ -1,0 +1,4 @@
+package recursive
+
+class SampleGateway {
+}

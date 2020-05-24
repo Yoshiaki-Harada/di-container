@@ -1,3 +1,5 @@
+package basic
+
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -8,7 +10,10 @@ object Container {
     }
 
     public fun <T : Any> get(clazz: KClass<T>): T {
-        val constructor = map.get(clazz)?.primaryConstructor ?: throw Exception("${clazz.simpleName} is not found")
+        val constructor = map[clazz]?.primaryConstructor ?: throw Exception("${clazz.simpleName} is not found")
+        constructor.typeParameters.map {
+            map.get(it)
+        }
         return constructor.call() as T
     }
 }
