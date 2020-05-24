@@ -9,10 +9,6 @@ object Container {
         map[clazz] = clazz
     }
 
-    public fun <T : Any, U : T> register(parent: KClass<T>, child: KClass<U>) {
-        map[parent] = child
-    }
-
     public fun <T : Any> get(clazz: KClass<T>): T {
         val constructor =
             map[clazz]?.primaryConstructor ?: throw Exception("${clazz.simpleName} is not found in this Container")
