@@ -1,11 +1,11 @@
-package recursive
+package singleton
 
-import basic_interface.Container
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 object Container {
     private val map = HashMap<KClass<*>, KClass<*>>()
+    private val instanceStore = HashMap<KClass<*>, Any>()
     public fun <T : Any> register(clazz: KClass<T>) {
         map[clazz] = clazz
     }
@@ -23,6 +23,6 @@ object Container {
             }
             .map { get(it) }
             .toTypedArray()
-        return constructor.call(*params) as T
+        return instanceStore.getOrPut(clazz, { constructor.call(*params) as T }) as T
     }
 }

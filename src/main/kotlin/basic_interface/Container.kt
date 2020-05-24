@@ -1,4 +1,4 @@
-package basic
+package basic_interface
 
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
