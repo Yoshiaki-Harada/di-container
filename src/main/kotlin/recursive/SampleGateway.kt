@@ -1,4 +1,8 @@
 package recursive
 
-class SampleGateway {
+class SampleGateway(private val driver: SampleDriver) {
+    fun execute() {
+        println("execute gateway")
+        driver.execute()
+    }
 }

@@ -1,4 +1,4 @@
-package basic
+package recursive
 
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
@@ -6,14 +6,18 @@ import kotlin.reflect.full.primaryConstructor
 object Container {
     private val map = HashMap<KClass<*>, KClass<*>>()
     public fun <T : Any> register(clazz: KClass<T>) {
-        map.put(clazz, clazz)
+        map[clazz] = clazz
     }
 
     public fun <T : Any> get(clazz: KClass<T>): T {
         val constructor = map[clazz]?.primaryConstructor ?: throw Exception("${clazz.simpleName} is not found")
-        constructor.typeParameters.map {
-            map.get(it)
-        }
-        return constructor.call() as T
+        val params = constructor.parameters
+            .map {
+                val kClass = it.type.classifier as KClass<*>
+                map[kClass] ?: throw Exception("$kClass is not found in this Container")
+            }
+            .map { get(it) }
+            .toTypedArray()
+        return constructor.call(*params) as T
     }
 }

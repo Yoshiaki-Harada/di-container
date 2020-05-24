@@ -1,4 +1,8 @@
 package recursive
 
-class SampleUsecase {
+class SampleUsecase(private val gateway: SampleGateway) {
+    fun execute() {
+        println("execute usecase")
+        gateway.execute()
+    }
 }

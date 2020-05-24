@@ -1,7 +1,9 @@
-package basic
+package recursive
 
 fun main() {
     Container.register(SampleDriver::class)
-    val driver = Container.get(SampleDriver::class)
-    driver.execute()
+    Container.register(SampleGateway::class)
+    Container.register(SampleUsecase::class)
+    val usecase = Container.get<SampleUsecase>(SampleUsecase::class)
+    usecase.execute()
 }
